@@ -1,0 +1,4 @@
+feedparser==5.2.1
+python-crontab==2.3.5
+python-dateutil==2.7.5
+six==1.11.0
