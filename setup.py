@@ -3,6 +3,7 @@ from subprocess import call
 
 # installation des packages avec pip
 call(["pip", "install", "-r", "%s/requirements.txt" % os.getcwd()])
+call(["apt-get","install","cron"])
 
 from crontab import CronTab
 
