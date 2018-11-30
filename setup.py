@@ -1,9 +1,10 @@
-from crontab import CronTab
 import os
 from subprocess import call
 
 # installation des packages avec pip
 call(["pip", "install", "-r", "%s/requirements.txt" % os.getcwd()])
+
+from crontab import CronTab
 
 # Gestion des crons
 cron = CronTab(user=True)
