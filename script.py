@@ -46,36 +46,40 @@ for i, entrie in enumerate(tvProgramme.entries):
         title = titleSplit[0].strip()
     else:
         title = ""
+
     # Creation des programmes pour chaque channel
     for key, value in dataForGuid.items():
         # Recheche du lien entre le flux rss des programme et les chanels repris du M3U
-        if title and title.decode('utf8').lower().replace(' ', '') in key.lower().decode('utf8').replace(' ', ''):
-            # Formatage de la date pour la balise
-            now = date.today().strftime('%Y%m%d')
-            hour, minute = titleSplit[1].strip().split(':')
-            if i < len(tvProgramme.entries) :
-                hour_to = tvProgramme.entries[i+1].title.split('|')[1].strip()
-                hour1, minute1 = hour_to.split(':')
-            else:
-                hour1, minute1 = [23,59]# L'heure maximum et Minuit
-            dateFormated = "%s%s%s%s %s" % (now, hour, minute, '00', '+0100')
-            dateFormatedstop = "%s%s%s%s %s" % (now, hour1, minute1, '00', '+0100')
-            # Creation de la balise Programme
-            programme = SubElement(tv, 'programme')
-            programme.set('start', dateFormated)
-            programme.set('stop', dateFormatedstop)
-            programme.set('channel', key)
-            # creation de la baliseTitle
-            titleElem = SubElement(programme, 'title')
-            titleElem.text = titleSplit[2].strip()
-            # creation de la balise Description
-            desc = SubElement(programme, 'desc')
-            desc.set('lang', 'fr')
-            desc.text = entrie.summary
-            # Creation de la balise Categorie
-            category = SubElement(programme, 'category')
-            category.set('lang', 'fr')
-            category.text = entrie.category
+        try:
+            if title and title.decode('utf8').lower().replace(' ', '') in key.decode('utf8').lower().replace(' ', ''):
+                # Formatage de la date pour la balise
+                now = date.today().strftime('%Y%m%d')
+                hour, minute = titleSplit[1].strip().split(':')
+                if i < len(tvProgramme.entries) :
+                    hour_to = tvProgramme.entries[i+1].title.split('|')[1].strip()
+                    hour1, minute1 = hour_to.split(':')
+                else:
+                    hour1, minute1 = [23,59]# L'heure maximum et Minuit
+                dateFormated = "%s%s%s%s %s" % (now, hour, minute, '00', '+0100')
+                dateFormatedstop = "%s%s%s%s %s" % (now, hour1, minute1, '00', '+0100')
+                # Creation de la balise Programme
+                programme = SubElement(tv, 'programme')
+                programme.set('start', dateFormated)
+                programme.set('stop', dateFormatedstop)
+                programme.set('channel', key)
+                # creation de la baliseTitle
+                titleElem = SubElement(programme, 'title')
+                titleElem.text = titleSplit[2].strip()
+                # creation de la balise Description
+                desc = SubElement(programme, 'desc')
+                desc.set('lang', 'fr')
+                desc.text = entrie.summary
+                # Creation de la balise Categorie
+                category = SubElement(programme, 'category')
+                category.set('lang', 'fr')
+                category.text = entrie.category
+        except:
+            print "bug"
 
 # Generation du fichier XML
 ElementTree(tv).write(config.get('File','xml_path'), encoding='utf-8', xml_declaration=True)
