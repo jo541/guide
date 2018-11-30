@@ -49,7 +49,7 @@ for i, entrie in enumerate(tvProgramme.entries):
     # Creation des programmes pour chaque channel
     for key, value in dataForGuid.items():
         # Recheche du lien entre le flux rss des programme et les chanels repris du M3U
-        if title and title.lower().replace(' ', '') in key.lower().replace(' ', ''):
+        if title and title.decode('utf8').lower().replace(' ', '') in key.lower().decode('utf8').replace(' ', ''):
             # Formatage de la date pour la balise
             now = date.today().strftime('%Y%m%d')
             hour, minute = titleSplit[1].strip().split(':')
